@@ -1,0 +1,7 @@
+1.Cardinality is the number of objects on each side of the relationship.
+
+2.Modality is whether the relationship is required or optional.
+
+3.A modality of 1 means that there has to be at one instance on that side of the relationship.
+
+4.The video shows crow's foot notation.

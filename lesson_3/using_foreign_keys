@@ -1,0 +1,50 @@
+1.psql lesson_3 < orders_products1.sql
+
+2.
+ALTER TABLE orders ADD CONSTRAINT orders_product_id_fkey FOREIGN KEY (product_id) REFERENCES products(id);
+
+3.
+INSERT INTO products
+VALUES (DEFAULT, 'small bolt'),
+       (DEFAULT, 'large bolt');
+
+INSERT INTO orders
+VALUES (DEFAULT, 1, 10),
+       (DEFAULT, 1, 25),
+       (DEFAULT, 2, 15);
+
+4.
+SELECT orders.quantity, products.name FROM orders JOIN products
+    ON orders.product_id = products.id;
+
+5.Yes
+
+INSERT INTO orders (quantity)
+VALUES (15);
+
+6.
+ALTER TABLE orders
+ALTER COLUMN product_id SET NOT NULL;
+
+You will get an error because there is already a null value in that column:
+ERROR:  column "product_id" contains null values
+
+7.
+DELETE FROM orders WHERE id = 4;
+ALTER TABLE orders
+ALTER COLUMN product_id SET NOT NULL;
+
+8.
+CREATE TABLE reviews (
+    id serial PRIMARY KEY,
+    product_id INT REFERENCES products(id),
+    body text NOT NULL
+);
+
+9.
+INSERT INTO reviews (product_id, body)
+VALUES (1, 'a little small'),
+       (1, 'very round!'),
+       (2, 'could have been smaller');
+
+10.False, a foreign key constraint does not prevent NULL values from being stored in a column.

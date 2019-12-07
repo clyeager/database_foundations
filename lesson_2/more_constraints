@@ -1,0 +1,66 @@
+1.psql -d practice < films2.sql
+
+2.
+ALTER TABLE films ALTER COLUMN title SET NOT NULL;
+ALTER TABLE films ALTER COLUMN year SET NOT NULL;
+ALTER TABLE films ALTER COLUMN genre SET NOT NULL;
+ALTER TABLE films ALTER COLUMN director SET NOT NULL;
+ALTER TABLE films ALTER COLUMN duration SET NOT NULL;
+
+3.We can see not null displayed under the Nullable column.
+
+4.ALTER TABLE films ADD CONSTRAINT unique_title UNIQUE(title);
+
+5.The constraint is shown under Indexes as:
+Indexes:
+    "unique_title" UNIQUE CONSTRAINT, btree (title)
+
+6.ALTER TABLE films DROP CONSTRAINT unique_title;
+
+7.ALTER TABLE films ADD CONSTRAINT title_length CHECK (length(title) > 0);
+
+8.
+UPDATE films SET title = '' WHERE year = 1988;
+ERROR:  new row for relation "films" violates check constraint "title_length"
+DETAIL:  Failing row contains (, 1988, action, John McTiernan, 132).
+
+9.
+Check constraints:
+    "title_length" CHECK (length(title::text) > 0)
+
+10.ALTER TABLE films DROP CONSTRAINT title_length;
+
+11.ALTER TABLE films ADD CONSTRAINT year_range CHECK (year BETWEEN 1900 AND 2100);
+
+12.
+Check constraints:
+    "year_range" CHECK (year >= 1900 AND year <= 2100)
+
+13.
+ALTER TABLE films ADD CONSTRAINT director_criteria
+    CHECK (length(director) >= 3 AND position(' ' in director) > 0);
+
+14.
+Check constraints:
+    "director_criteria" CHECK (length(director::text) >= 3 AND "position"(director::text, ' '::text) > 0)
+
+15.
+UPDATE films SET director = 'Johnny' WHERE title = 'Die Hard';
+ERROR:  new row for relation "films" violates check constraint "director_criteria"
+DETAIL:  Failing row contains (Die Hard, 1988, action, Johnny, 132).
+
+16.NOT NULL constraint, CHECK constraint, UNIQUE constraint, DATA TYPE
+
+17.
+CREATE TABLE people (
+    name varchar(30),
+    age INT DEFAULT NULL
+);
+
+ALTER TABLE people ALTER COLUMN age SET NOT NULL;
+INSERT INTO people (name)
+VALUES ('Hannah');
+
+This shows that you can define a default value that violates a constraint, however when trying to actually use the default you will get an error.
+
+18.\d tablename

@@ -1,0 +1,7 @@
+1.The three levels of schema are conceptual, logical, and physical..
+
+2.Conceptual schema is a design at a high level, used to decide what relationships exist between entities.
+
+3.Physical schema is all the implementation level, such as the table schema, columns, and datatypes.
+
+4.A database diagram can show one to one, one to many, and many to many relationships.

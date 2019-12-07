@@ -1,0 +1,9 @@
+1.varchar holds characters up to a certain length; text holds characters with an unlimited length
+
+2.integer is a whole number; decimal is a limited precision number, which can be non-floating fractional values; real represents floating point numbers that can include fractional values
+
+3.2147483647
+
+4.timestamp shows the date and the time, while date is only the date
+
+5.No, but can use timestamptz instead for a timestamp and timezone
