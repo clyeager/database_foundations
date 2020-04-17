@@ -1,0 +1,16 @@
+createdb database_one
+
+psql -d database_one
+
+CREATE DATABASE database_two;
+
+\c database_one
+\c database_two
+
+\l
+
+DROP DATABASE database_two;
+
+\q
+dropdb database_one
+dropdb ls_burger

@@ -1,0 +1,59 @@
+\c encyclopedia
+
+SELECT countries.name, continents.continent_name
+FROM countries
+INNER JOIN continents ON (countries.continent_id = continents.id);
+
+SELECT name, capital FROM countries WHERE continent_id = 3;
+
+SELECT countries.name, countries.capital
+FROM countries INNER JOIN continents
+ON (countries.continent_id = continents.id)
+WHERE continents.continent_name = 'Europe';
+
+SELECT DISTINCT singers.first_name FROM singers
+INNER JOIN albums ON (singers.id = albums.singer_id)
+WHERE albums.label LIKE '%Warner Bros%';
+
+SELECT singers.first_name, singers.last_name, albums.album_name, albums.released
+FROM singers INNER JOIN albums ON (singers.id = albums.singer_id)
+WHERE albums.released >= '1980-01-01'
+AND albums.released < '1990-01-01'
+AND singers.deceased = false
+ORDER BY singers.date_of_birth DESC;
+
+SELECT singers.first_name, singers.last_name FROM singers
+LEFT JOIN albums ON (singers.id = albums.singer_id)
+WHERE albums.id IS NULL;
+
+SELECT first_name, last_name FROM singers
+WHERE id NOT IN (SELECT singer_id FROM albums);
+
+\c ls_burger
+
+SELECT orders.*, products.* FROM orders
+INNER JOIN order_items ON (orders.id = order_items.order_id)
+INNER JOIN products ON (order_items.product_id = products.id);
+
+SELECT DISTINCT o.id FROM orders o
+INNER JOIN order_items oi ON (o.id = oi.order_id)
+INNER JOIN products p ON (oi.product_id = p.id)
+WHERE p.product_name = 'Fries';
+
+SELECT DISTINCT c.customer_name AS "Customers who like fries"
+FROM customers c
+INNER JOIN orders o ON (c.id = o.customer_id)
+INNER JOIN order_items oi ON (o.id = oi.order_id)
+INNER JOIN products p ON (oi.product_id = p.id)
+WHERE p.product_name = 'Fries';
+
+SELECT sum(p.product_cost) AS "Total cost"
+FROM products p
+INNER JOIN order_items oi ON (p.id = oi.product_id)
+INNER JOIN orders o ON (oi.order_id = o.id)
+INNER JOIN customers ON (o.customer_id = customers.id)
+WHERE customer_name = 'Natasha O''Shea';
+
+SELECT p.product_name, count(oi.product_id) FROM products p
+INNER JOIN order_items oi ON (p.id = oi.product_id)
+GROUP BY p.product_name;
